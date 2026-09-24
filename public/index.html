@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Laboratório de autenticação</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+
+<body>
+  <main class="card">
+    <h1>Painel do Utilizador</h1>
+
+    <p id="status">
+      Estado: <strong>Verificando sessão...</strong>
+    </p>
+
+    <div id="login-area">
+      <a class="btn google" href="/oauth/login/google">
+        Entrar com Google
+      </a>
+
+      <a class="btn github" href="/oauth/login/github">
+        Entrar com GitHub
+      </a>
+    </div>
+
+    <div id="user-area" hidden>
+      <img id="avatar" alt="Foto do utilizador" hidden>
+
+      <h2 id="user-name"></h2>
+      <p id="user-email"></p>
+
+      <form method="post" action="/oauth/logout">
+        <button class="btn logout" type="submit">
+          Terminar Sessão (Logout)
+        </button>
+      </form>
+    </div>
+  </main>
+
+  <script src="/app.js"></script>
+</body>
+</html>
