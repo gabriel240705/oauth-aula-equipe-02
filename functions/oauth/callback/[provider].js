@@ -351,20 +351,21 @@ export async function onRequestGet(context) {
       headers
     });
 
-  } catch (error) {
-    return Response.json(
-      {
-        error:
-          "Falha ao concluir a autenticação."
-      },
-      {
-        status: 500,
-        headers: {
-          "Cache-Control": "no-store",
-          "Set-Cookie":
-            clearTransactionCookie()
-        }
+ } catch (error) {
+  console.error("OAuth callback:", error.message);
+
+  return Response.json(
+    {
+      error:
+        "Falha ao concluir a autenticação."
+    },
+    {
+      status: 500,
+      headers: {
+        "Cache-Control": "no-store",
+        "Set-Cookie":
+          clearTransactionCookie()
       }
-    );
-  }
+    }
+  );
 }
