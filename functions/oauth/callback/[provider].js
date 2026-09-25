@@ -101,10 +101,7 @@ export async function onRequestGet(context) {
     return errorResponse("State inválido.");
   }
 
-  /*
-   * A transação é apagada ANTES da troca do código.
-   * Isso impede a reutilização da mesma transação OAuth.
-   */
+  // Remove a transação antes da troca do código.
   await context.env.DB
     .prepare(`
       DELETE FROM oauth_transactions
@@ -156,7 +153,7 @@ export async function onRequestGet(context) {
 
     if (!tokenResponse.ok) {
       throw new Error(
-        "Falha na troca do código de autorização."
+        `Falha HTTP na troca do código: ${tokenResponse.status}`
       );
     }
 
@@ -189,14 +186,17 @@ export async function onRequestGet(context) {
     if (provider === "github") {
       if (!tokenData.access_token) {
         throw new Error(
-          "GitHub não devolveu access_token."
+          `GitHub token error: ${
+            tokenData.error ?? "erro_desconhecido"
+          } - ${
+            tokenData.error_description ?? "sem descrição"
+          }`
         );
       }
 
       if (
         !tokenData.token_type ||
-        tokenData.token_type.toLowerCase() !==
-          "bearer"
+        tokenData.token_type.toLowerCase() !== "bearer"
       ) {
         throw new Error(
           "Tipo de token do GitHub inválido."
@@ -221,16 +221,14 @@ export async function onRequestGet(context) {
 
       if (!userResponse.ok) {
         throw new Error(
-          "Falha ao consultar identidade no GitHub."
+          `Falha ao consultar identidade no GitHub: ${userResponse.status}`
         );
       }
 
       const githubUser =
         await userResponse.json();
 
-      if (
-        !Number.isInteger(githubUser.id)
-      ) {
+      if (!Number.isInteger(githubUser.id)) {
         throw new Error(
           "Identificador do GitHub inválido."
         );
@@ -239,8 +237,7 @@ export async function onRequestGet(context) {
       identity = {
         issuer: "https://github.com",
         subject: String(githubUser.id),
-        email:
-          githubUser.email ?? null,
+        email: githubUser.email ?? null,
         displayName:
           githubUser.name ??
           githubUser.login ??
@@ -281,13 +278,13 @@ export async function onRequestGet(context) {
 
       if (revokeResponse.status !== 204) {
         throw new Error(
-          "Falha ao revogar autorização do GitHub."
+          `Falha ao revogar autorização do GitHub: ${revokeResponse.status}`
         );
       }
     }
 
     /*
-     * Criação da sessão local
+     * CRIAÇÃO DA SESSÃO LOCAL
      */
     const sessionId = randomToken();
 
@@ -351,22 +348,27 @@ export async function onRequestGet(context) {
       headers
     });
 
- } catch (error) {
-  console.error("OAuth callback:", error.message);
+  } catch (error) {
+    console.error(
+      "OAuth callback:",
+      error instanceof Error
+        ? error.message
+        : "Erro desconhecido"
+    );
 
-  return Response.json(
-    {
-      error:
-        "Falha ao concluir a autenticação."
-    },
-    {
-      status: 500,
-      headers: {
-        "Cache-Control": "no-store",
-        "Set-Cookie":
-          clearTransactionCookie()
+    return Response.json(
+      {
+        error:
+          "Falha ao concluir a autenticação."
+      },
+      {
+        status: 500,
+        headers: {
+          "Cache-Control": "no-store",
+          "Set-Cookie":
+            clearTransactionCookie()
+        }
       }
-    }
-  );
-}
+    );
+  }
 }
