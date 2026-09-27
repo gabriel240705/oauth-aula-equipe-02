@@ -1,0 +1,5 @@
+Homepage URL:
+https://oauth-aula-equipe-02.pages.dev
+
+Authorization callback URL:
+https://oauth-aula-equipe-02.pages.dev/oauth/callback/github
