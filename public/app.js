@@ -35,3 +35,4 @@ fetch("/api/me", { credentials: "same-origin" })
     document.getElementById("status").innerHTML =
       'Estado: <strong>Não autenticado</strong>';
   });
+const query = "SELECT * FROM usuarios WHERE nome = '" + req.query.nome + "'";
