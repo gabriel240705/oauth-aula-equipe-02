@@ -26,13 +26,16 @@ jobs:
           git diff origin/${{ github.base_ref }}...HEAD | head -c 20000
           echo '```'
           } > prompt.txt
+      
       - id: ia
-        uses: actions/ai-inference@v1
+        uses: actions/ai-inference@v3
         env:
           COPILOT_GITHUB_TOKEN: ${{ secrets.COPILOT_PAT }}
         with:
           prompt-file: prompt.txt
+          model: ""
           system-prompt: Você é um revisor de código objetivo.
+
       - name: Comenta no PR
         env:
           GH_TOKEN: ${{ github.token }}
