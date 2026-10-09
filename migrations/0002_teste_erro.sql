@@ -1,5 +1,0 @@
-
-CREATE TABLE IF NOT EXISTS teste_erro (
-    id INTEGER PRIMARY KEY,
-    nome TEXT NOT NULL
-);
