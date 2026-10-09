@@ -1,9 +1,0 @@
-
-name = "oauth-aula-equipe-02"
-pages_build_output_dir = "./public"
-
-[[d1_databases]]
-binding = "DB"
-database_name = "oauth-sessions-equipe-02"
-database_id = "67b3b1cc-2fd8-445b-abb8-6944363bf3df"
-migrations_dir = "migrations"
