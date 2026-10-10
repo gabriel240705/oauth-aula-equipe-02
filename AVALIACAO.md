@@ -10,7 +10,7 @@
 
 ### 1. Tarefa 1: Configuração Inicial e Estrutura do Repositório
 - **Estado**: Concluído ✅
-- **Descrição**: Configuração da estrutura de pastas do projeto, integração dos ficheiros base da aplicação web, definição do `wrangler.toml` e organização inicial das branches de desenvolvimento da equipa (`gabriel-correcao-ci` e `Laura-Casteleins-patch-1`).
+- **Descrição**: Configuração da estrutura de pastas do projeto, integração dos ficheiros base da aplicação web, definição do `wrangler.toml` e organização inicial das branches de desenvolvimento da equipa (`gabriel-correcao-ci` e `Laura-Casteleins-patch-5`).
 
 ### 2. Tarefa 2: Implementação e Ajustes de CI (GitHub Actions)
 - **Estado**: Concluído ✅
@@ -26,7 +26,7 @@
 - **Descrição**: Validação da estrutura de pastas de migração (`migrations/`), inclusão dos scripts SQL para gestão de tabelas (como a tabela de notas e utilizadores) e testes locais bem-sucedidos utilizando o Wrangler D1.
 - **Comando de Validação/Aplicação Local**:
   ```bash
-  npx wrangler d1 migrations apply <NOME_DA_BASE> --local
+  npx wrangler d1 migrations apply <oauth-sessions-equipe-02> --local
 ----
 
 1. Qual é a importância da automação de revisões de código por IA (GitHub Actions) no fluxo de desenvolvimento colaborativo?
